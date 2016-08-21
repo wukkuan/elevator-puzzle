@@ -4,32 +4,8 @@ import './App.css'
 const CAR_WIDTH = 15
 const CAR_HEIGHT = 30
 
-const state = {
-  shafts: [
-    {
-      carFloor: 0,
-      floorRequests: [1],
-    }, {
-      carFloor: 0,
-      floorRequests: [2],
-    },
-  ],
-  floors: [
-    {
-      upRequested: false,
-    },
-    {
-      upRequested: true,
-      downRequested: false,
-    },
-    {
-      upRequested: false,
-      downRequested: true,
-    },
-    {
-      downRequested: false,
-    },
-  ],
+function createArray(length) {
+  return Array.from(Array(length))
 }
 
 class Shaft extends Component {
@@ -67,22 +43,24 @@ class Shaft extends Component {
 
 class App extends Component {
   render() {
-    const shafts = state.shafts.map((shaft, idx) => {
-      const floorButtons = Array.from(Array(state.floors.length)).map((_, floor) => (
-        <button
-          key={floor}
-          style={{
-            backgroundColor: shaft.floorRequests.includes(floor) ? 'lightgreen' : 'white'
-          }}
-        >
-          {floor}
-        </button>
-      ))
+    const shafts = this.props.appState.shafts.map((shaft, shaftIdx) => {
+      const floorButtons = createArray(this.props.appState.floors.length).map(
+        (_, floor) => (
+          <button
+            key={floor}
+            style={{
+              backgroundColor: shaft.floorRequests.includes(floor) ? 'lightgreen' : 'white'
+            }}
+            onClick={this.props.onFloorRequest.bind(null, this.props.appState, shaftIdx, floor)}
+          >
+            {floor}
+          </button>
+        )
+      )
       return (
-        <div>
+        <div key={shaftIdx}>
           <Shaft
-            key={idx}
-            floors={state.floors.length}
+            floors={this.props.appState.floors.length}
             carFloor={shaft.carFloor}
           />
           <div
@@ -97,8 +75,9 @@ class App extends Component {
       )
     })
     const LOBBY_BUTTON_WIDTH = 25;
-    const floorLobbies = state.floors.map(floor => (
+    const floorLobbies = this.props.appState.floors.map((floor, floorIdx) => (
       <div
+        key={floorIdx}
         style={{
           display: 'flex',
           height: CAR_HEIGHT,
@@ -111,6 +90,7 @@ class App extends Component {
                 backgroundColor: floor.upRequested ? 'lightgreen' : 'white',
                 width: LOBBY_BUTTON_WIDTH,
               }}
+              onClick={this.props.onLobbyUpRequest.bind(null, this.props.appState, floorIdx)}
             >^</button>
           ) : <div style={{width: LOBBY_BUTTON_WIDTH}} />
         }
@@ -121,6 +101,9 @@ class App extends Component {
                 width: LOBBY_BUTTON_WIDTH,
                 backgroundColor: floor.downRequested ? 'lightgreen' : 'white',
               }}
+              onClick={
+                this.props.onLobbyDownRequest.bind(null, this.props.appState, floorIdx)
+              }
             >v</button>
           ) : null
         }
@@ -135,13 +118,16 @@ class App extends Component {
         {shafts}
         <div
           style={{
-            height: CAR_HEIGHT * state.floors.length,
+            height: CAR_HEIGHT * this.props.appState.floors.length,
             display: 'flex',
             flexDirection: 'column',
           }}
         >
           {floorLobbies}
         </div>
+        <button
+          onClick={this.props.onStep.bind(this, this.props.appState)}
+        >Step</button>
       </div>
     )
   }

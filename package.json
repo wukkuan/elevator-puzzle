@@ -6,6 +6,8 @@
     "react-scripts": "0.2.1"
   },
   "dependencies": {
+    "lodash.clonedeep": "^4.5.0",
+    "lodash.uniq": "^4.5.0",
     "react": "^15.2.1",
     "react-dom": "^15.2.1"
   },

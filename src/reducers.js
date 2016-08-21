@@ -10,16 +10,16 @@ export function floorRequest(state, shaft, floor) {
   return nextState;
 }
 
-function lobbyRequest(state, floor, floorDirection) {
-  return state;
-}
-
 export function lobbyUpRequest(state, floor) {
-  return lobbyRequest(state, floor, 1);
+  const nextState = cloneDeep(state)
+  nextState.floors[floor].upRequested = true;
+  return nextState;
 }
 
 export function lobbyDownRequest(state, floor) {
-  return lobbyRequest(state, floor, -1);
+  const nextState = cloneDeep(state)
+  nextState.floors[floor].downRequested = true;
+  return nextState;
 }
 
 export function step(state) {
