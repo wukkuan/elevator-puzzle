@@ -1,6 +1,34 @@
 import cloneDeep from 'lodash.clonedeep'
 import uniq from 'lodash.uniq'
 
+const initialState = {
+  shafts: [
+    {
+      carFloor: 0,
+      floorRequests: [],
+    }, {
+      carFloor: 0,
+      floorRequests: [],
+    },
+  ],
+  floors: [
+    {
+      downRequested: false,
+    },
+    {
+      upRequested: false,
+      downRequested: false,
+    },
+    {
+      upRequested: false,
+      downRequested: false,
+    },
+    {
+      upRequested: false,
+    },
+  ],
+}
+
 export function floorRequest(state, shaft, floor) {
   const nextState = cloneDeep(state)
   nextState.shafts[shaft].floorRequests.push(floor)
@@ -22,6 +50,6 @@ export function lobbyDownRequest(state, floor) {
   return nextState;
 }
 
-export function step(state) {
+export function step(state = initialState) {
   return state;
 }

@@ -9,33 +9,6 @@ import {
   step,
 } from './reducers'
 
-const initialState = {
-  shafts: [
-    {
-      carFloor: 0,
-      floorRequests: [],
-    }, {
-      carFloor: 0,
-      floorRequests: [],
-    },
-  ],
-  floors: [
-    {
-      downRequested: false,
-    },
-    {
-      upRequested: false,
-      downRequested: false,
-    },
-    {
-      upRequested: false,
-      downRequested: false,
-    },
-    {
-      upRequested: false,
-    },
-  ],
-}
 
 function handleFloorRequest(state, shaft, floor) {
   const nextState = floorRequest(state, shaft, floor);
@@ -69,4 +42,4 @@ function render(nextState) {
   )
 }
 
-render(initialState);
+render(step());
