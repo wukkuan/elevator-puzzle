@@ -74,7 +74,7 @@ class App extends Component {
         </div>
       )
     })
-    const LOBBY_BUTTON_WIDTH = 25;
+    const LOBBY_BUTTON_WIDTH = 25
     const floorLobbies = this.props.appState.floors.map((floor, floorIdx) => (
       <div
         key={floorIdx}
